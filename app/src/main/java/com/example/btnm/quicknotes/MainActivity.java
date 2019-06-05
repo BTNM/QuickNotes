@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
 
-    EditText fragmentName = null;
+//    private String fragmentName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addTab();
+//                addTab();
 //                removeCurrentTab();
             }
         });
@@ -75,18 +75,19 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.add:
-                msg = "add";
-                addTab();
+//                msg = "add";
+                addFragmentPrompt();
+//                addTab(name);
                 break;
             case R.id.search:
                 msg = "search";
-                addFragmentPropmpt();
+//                addFragmentPrompt();
 //                confirmDialogDemo();
 //                promptDialogDemo();
                 break;
             case R.id.delete:
                 msg ="delete";
-                removeCurrentTab();
+                removeFragmentPrompt();
 
                 break;
             case R.id.setting:
@@ -96,36 +97,44 @@ public class MainActivity extends AppCompatActivity {
                 msg = item.getTitle().toString();
                 break;
         }
-        Toast.makeText(MainActivity.this, msg+" checked", Toast.LENGTH_LONG).show();
+//        Toast.makeText(MainActivity.this, msg+" checked", Toast.LENGTH_LONG).show();
         return super.onOptionsItemSelected(item);
     }
 
-    private void addTab() {
-        sectionPageAdaper.addFragment(new tabFragment(), "tab");
+    private void addTab(String name) {
+        if (name != null) {
+            sectionPageAdaper.addFragment(new tabFragment(), name);
+        }
         sectionPageAdaper.notifyDataSetChanged();
     }
 
-    private void removeCurrentTab () {
-        int pos = mViewPager.getCurrentItem();
+    private void removeCurrentTab (int position) {
+//        int pos = mViewPager.getCurrentItem();
 //        System.out.println("current fragment pos: " + pos);
-        sectionPageAdaper.removeCurrentFragment(pos);
+        sectionPageAdaper.removeCurrentFragment(position);
         sectionPageAdaper.notifyDataSetChanged();
 
     }
 
-    public void addFragmentPropmpt () {
+    public void addFragmentPrompt () {
 //        fragmentName = new EditText(context);
         final EditText editText = new EditText(this);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("test title");
-        builder.setMessage("Name of the note category: ");
-//        builder.setCancelable(false);
+        builder.setTitle("Set Name");
+        builder.setMessage("Set the Name of the note category: ");
+        builder.setCancelable(false);
         builder.setView(editText);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "Hello " + editText.getText() + " ! how are you?", Toast.LENGTH_LONG).show();
+                String name = editText.getText().toString();
+
+                if (name.trim().length() != 0) {
+                    addTab( name);
+                } else {
+                    Toast.makeText(getApplicationContext(),"Input are empty", Toast.LENGTH_LONG).show();
+                }
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -140,24 +149,28 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         dialog.show();
+
     }
 
-    private void confirmDialogDemo() {
+    private void removeFragmentPrompt() {
+        final int pos = mViewPager.getCurrentItem();
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Confirm dialog demo !");
-        builder.setMessage("You are about to delete all records of database. Do you really want to proceed ?");
+        builder.setTitle("Confirm Delete Tab!");
+        builder.setMessage("Do you want to delete the tab: "+ "\"" +sectionPageAdaper.getPageTitle(pos)+ "\" " +"\nDo you really want to proceed ?");
         builder.setCancelable(false);
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "You've choosen to delete all records", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "You've choosen to delete all records", Toast.LENGTH_SHORT).show();
+                removeCurrentTab(pos);
             }
         });
 
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "You've changed your mind to delete all records", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "You've changed your mind to delete all records", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -195,8 +208,8 @@ public class MainActivity extends AppCompatActivity {
     private void initializeViewPager(ViewPager viewPager) {
         // SectionPageAdapter extends FragmentPageAdapter to add all fragments into a fragment list
         sectionPageAdaper = new SectionPageAdapter (getSupportFragmentManager() );
-        sectionPageAdaper.addFragment(new tabFragment(), "tab1");
-        sectionPageAdaper.addFragment(new tabFragment(), "tab2");
+        sectionPageAdaper.addFragment(new tabFragment(), "Quick Notes");
+//        sectionPageAdaper.addFragment(new tabFragment(), "tab2");
 
         viewPager.setAdapter(sectionPageAdaper);
     }
