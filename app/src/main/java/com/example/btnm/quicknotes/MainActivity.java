@@ -1,8 +1,11 @@
 package com.example.btnm.quicknotes;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
@@ -11,7 +14,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.btnm.quicknotes.tabFragments.tabFragment;
@@ -21,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
 
     private Toolbar toolbar;
+
+    EditText fragmentName = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +80,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.search:
                 msg = "search";
+                addFragmentPropmpt();
+//                confirmDialogDemo();
+//                promptDialogDemo();
                 break;
             case R.id.delete:
                 msg ="delete";
@@ -97,9 +107,78 @@ public class MainActivity extends AppCompatActivity {
 
     private void removeCurrentTab () {
         int pos = mViewPager.getCurrentItem();
+//        System.out.println("current fragment pos: " + pos);
         sectionPageAdaper.removeCurrentFragment(pos);
         sectionPageAdaper.notifyDataSetChanged();
 
+    }
+
+    public void addFragmentPropmpt () {
+//        fragmentName = new EditText(context);
+        final EditText editText = new EditText(this);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("test title");
+        builder.setMessage("Name of the note category: ");
+//        builder.setCancelable(false);
+        builder.setView(editText);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(), "Hello " + editText.getText() + " ! how are you?", Toast.LENGTH_LONG).show();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+//        builder.show();
+        //create alertdialog and always shows keyboard before showing it
+        AlertDialog dialog = builder.create();
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        dialog.show();
+    }
+
+    private void confirmDialogDemo() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirm dialog demo !");
+        builder.setMessage("You are about to delete all records of database. Do you really want to proceed ?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(), "You've choosen to delete all records", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(), "You've changed your mind to delete all records", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.show();
+    }
+
+    private void promptDialogDemo() {
+        final EditText edtText = new EditText(this);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Prompt dialog demo !");
+        builder.setMessage("What is your name?");
+//        builder.setCancelable(false);
+        builder.setView(edtText);
+        builder.setNeutralButton("Prompt", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(), "Hello " + edtText.getText() + " ! how are you?", Toast.LENGTH_LONG).show();
+            }
+        });
+        builder.show();
     }
 
     private void initializeTabLayout() {

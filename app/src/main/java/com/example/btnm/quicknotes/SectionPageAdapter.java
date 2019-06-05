@@ -43,8 +43,11 @@ class SectionPageAdapter extends FragmentPagerAdapter {
     }
 
     public void removeCurrentFragment (int position) {
-        mFragmentTitleList.remove(position);
-        mFragmentList.remove(position);
+//        System.out.println("Fragment pos removed: "+ position);
+        if(mFragmentList.size()!= 1 ) {
+            mFragmentTitleList.remove(position);
+            mFragmentList.remove(position);
+        }
 
     }
 
