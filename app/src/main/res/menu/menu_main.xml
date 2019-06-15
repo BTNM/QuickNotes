@@ -14,6 +14,13 @@
         android:icon="@drawable/ic_search"
         app:showAsAction="always" />
 
+    <item android:id="@+id/SwitchView"
+        android:title="Switch View"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_view_column"
+        app:showAsAction="always"
+        />
+
     <item android:id="@+id/delete"
         android:title="Delete"
         android:orderInCategory="100"
