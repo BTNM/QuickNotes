@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,18 +35,19 @@ public class MainActivity extends AppCompatActivity {
     private SectionPageAdapter sectionPageAdaper;
     private ViewPager mViewPager;
 
-    private Toolbar toolbar;
-    private ViewStub stubGrid;
-    private ViewStub stubList;
-    private ListView listView;
-    private GridView gridView;
-    private ListViewAdapter listViewAdapter;
-    private GridViewAdapter gridViewAdapter;
 
-    private List<Note> noteList;
-    private int currentViewMode = 0;
-    static final int VIEW_MODE_LISTVIEW = 0;
-    static final int VIEW_MODE_GRIDVIEW = 1;
+
+    private Toolbar toolbar;
+//    private ViewStub stubGrid;
+//    private ViewStub stubList;
+//    private ListView listView;
+//    private GridView gridView;
+//    private ListViewAdapter listViewAdapter;
+//    private GridViewAdapter gridViewAdapter;
+//
+//    private int currentViewMode = 0;
+//    static final int VIEW_MODE_LISTVIEW = 0;
+//    static final int VIEW_MODE_GRIDVIEW = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,31 +63,26 @@ public class MainActivity extends AppCompatActivity {
 //        toolbar.setLogo(R.drawable.ic_note_color);
 //        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
 
-        stubList = findViewById(R.id.stub_list);
-        stubGrid = findViewById(R.id.stub_grid);
+//        stubList = findViewById(R.id.stub_list);
+//        stubGrid = findViewById(R.id.stub_grid);
+//        // inflate ViewStub before get view
+//        stubList.inflate();
+//        stubGrid.inflate();
+//        listView = (ListView) findViewById(R.id.listView);
+//        gridView = (GridView) findViewById(R.id.gridView);
+//        // get list of notes
+//        getNoteList();
+//        //get current view mode in share references
+//        SharedPreferences sharedPreferences = getSharedPreferences("ViewMode", MODE_PRIVATE );
+//        currentViewMode = sharedPreferences.getInt("currentViewMode", VIEW_MODE_LISTVIEW);
+//        // register item click
+////        listView.setOnClickListener( onItemClick);
+////        gridView.setOnClickListener( onItemClick);
+//        listView.setOnItemClickListener(onItemClick);
+//        gridView.setOnItemClickListener(onItemClick);
+//        switchView();
 
-        // inflate ViewStub before get view
-        stubList.inflate();
-        stubGrid.inflate();
-
-        listView = (ListView) findViewById(R.id.listView);
-        gridView = (GridView) findViewById(R.id.gridView);
-
-        // get list of notes
-        getNoteList();
-
-        //get current view mode in share references
-        SharedPreferences sharedPreferences = getSharedPreferences("ViewMode", MODE_PRIVATE );
-        currentViewMode = sharedPreferences.getInt("currentViewMode", VIEW_MODE_LISTVIEW);
-
-        // register item click
-//        listView.setOnClickListener( onItemClick);
-//        gridView.setOnClickListener( onItemClick);
-        listView.setOnItemClickListener(onItemClick);
-        gridView.setOnItemClickListener(onItemClick);
-
-        switchView();
-
+        initializeRecycleView();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -97,53 +94,40 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void switchView() {
-        // display listview and hides gridview, and opposite
-        if (VIEW_MODE_LISTVIEW == currentViewMode) {
-            stubList.setVisibility(View.VISIBLE);
-            stubGrid.setVisibility(View.GONE);
-        } else {
-            stubList.setVisibility(View.GONE);
-            stubGrid.setVisibility(View.VISIBLE);
-        }
-        setAdapters();
+    private void initializeRecycleView() {
 
 
     }
 
-    private void setAdapters() {
-        if (VIEW_MODE_LISTVIEW == currentViewMode) {
-            listViewAdapter = new ListViewAdapter(this, R.layout.list_item, noteList);
-            listView.setAdapter(listViewAdapter);
-        } else {
-            gridViewAdapter = new GridViewAdapter(this, R.layout.grid_item, noteList);
-            gridView.setAdapter(gridViewAdapter);
-        }
+//    private void switchView() {
+//        // display listview and hides gridview, and opposite
+//        if (VIEW_MODE_LISTVIEW == currentViewMode) {
+//            stubList.setVisibility(View.VISIBLE);
+//            stubGrid.setVisibility(View.GONE);
+//        } else {
+//            stubList.setVisibility(View.GONE);
+//            stubGrid.setVisibility(View.VISIBLE);
+//        }
+//        setAdapters();
+//    }
+//    private void setAdapters() {
+//        if (VIEW_MODE_LISTVIEW == currentViewMode) {
+//            listViewAdapter = new ListViewAdapter(this, R.layout.list_item, noteList);
+//            listView.setAdapter(listViewAdapter);
+//        } else {
+//            gridViewAdapter = new GridViewAdapter(this, R.layout.grid_item, noteList);
+//            gridView.setAdapter(gridViewAdapter);
+//        }
+//
+//    }
+//    AdapterView.OnItemClickListener onItemClick = new AdapterView.OnItemClickListener() {
+//        @Override
+//        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//            // do any thing when user click to item
+//            Toast.makeText(getApplicationContext(), noteList.get(position).getTitle() + " - " + noteList.get(position).getDescription(), Toast.LENGTH_LONG ).show();
+//        }
+//    };
 
-
-    }
-
-    private List<Note> getNoteList() {
-        // pseudo code to get note, replace your code to get real note here
-        noteList = new ArrayList<>();
-        noteList.add(new Note("Test Title1", R.drawable.ic_work,"Work", "Test description for the note") );
-        noteList.add(new Note("Test Title2", R.drawable.ic_note_blue,"Work", "Test description for the note") );
-        noteList.add(new Note("Test Title3", R.drawable.ic_work,"Work", "Test description for the note") );
-        noteList.add(new Note("Test Title4", R.drawable.ic_note_color,"Work", "Test description for the note") );
-        noteList.add(new Note("Test Title5", R.drawable.ic_work,"Work", "Test description for the note") );
-
-        return noteList;
-
-
-    }
-
-    AdapterView.OnItemClickListener onItemClick = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            // do any thing when user click to item
-            Toast.makeText(getApplicationContext(), noteList.get(position).getTitle() + " - " + noteList.get(position).getDescription(), Toast.LENGTH_LONG ).show();
-        }
-    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -174,18 +158,17 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.SwitchView:
                 msg = "switchView";
-                if (VIEW_MODE_LISTVIEW == currentViewMode) {
-                    currentViewMode = VIEW_MODE_GRIDVIEW;
-                } else {
-                    currentViewMode = VIEW_MODE_LISTVIEW;
-                }
-                //switch view
-                switchView();
-                // save view in shared preferences
-                SharedPreferences sharedPreferences = getSharedPreferences("ViewMode", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt("currentViewMode", currentViewMode);
-                editor.commit();
+//                if (VIEW_MODE_LISTVIEW == currentViewMode) {
+//                    currentViewMode = VIEW_MODE_GRIDVIEW;
+//                } else {
+//                    currentViewMode = VIEW_MODE_LISTVIEW;
+//                }
+//                switchView();
+//                // save view in shared preferences
+//                SharedPreferences sharedPreferences = getSharedPreferences("ViewMode", MODE_PRIVATE);
+//                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                editor.putInt("currentViewMode", currentViewMode);
+//                editor.commit();
 
                 break;
             case R.id.delete:
