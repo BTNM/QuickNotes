@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
 
 
-
     private Toolbar toolbar;
 //    private ViewStub stubGrid;
 //    private ViewStub stubList;
@@ -53,7 +52,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        sectionPageAdaper = new SectionPageAdapter(getSupportFragmentManager() );
+        sectionPageAdaper = new SectionPageAdapter(getSupportFragmentManager() );
+
         initializeTabLayout();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -70,8 +70,10 @@ public class MainActivity extends AppCompatActivity {
 //        stubGrid.inflate();
 //        listView = (ListView) findViewById(R.id.listView);
 //        gridView = (GridView) findViewById(R.id.gridView);
+
 //        // get list of notes
 //        getNoteList();
+
 //        //get current view mode in share references
 //        SharedPreferences sharedPreferences = getSharedPreferences("ViewMode", MODE_PRIVATE );
 //        currentViewMode = sharedPreferences.getInt("currentViewMode", VIEW_MODE_LISTVIEW);
@@ -128,7 +130,11 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //    };
 
-
+    /**
+     * Initialize the contents of the Activity's standard options menu. You should place your menu items in to menu.
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // inflate custom menu from xml file
@@ -152,12 +158,14 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.search:
                 msg = "search";
+
 //                addFragmentPrompt();
 //                confirmDialogDemo();
 //                promptDialogDemo();
                 break;
             case R.id.SwitchView:
                 msg = "switchView";
+
 //                if (VIEW_MODE_LISTVIEW == currentViewMode) {
 //                    currentViewMode = VIEW_MODE_GRIDVIEW;
 //                } else {
@@ -169,7 +177,6 @@ public class MainActivity extends AppCompatActivity {
 //                SharedPreferences.Editor editor = sharedPreferences.edit();
 //                editor.putInt("currentViewMode", currentViewMode);
 //                editor.commit();
-
                 break;
             case R.id.delete:
                 msg ="delete";
@@ -186,6 +193,8 @@ public class MainActivity extends AppCompatActivity {
 //        Toast.makeText(MainActivity.this, msg+" checked", Toast.LENGTH_LONG).show();
         return super.onOptionsItemSelected(item);
     }
+
+
 
     private void addTab(String name) {
         if (name != null) {
@@ -282,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeTabLayout() {
         //ViewPagers animates screen slides automatically, then add the different tabs/fragment to the viewpager
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = (ViewPager) findViewById(R.id.viewPagerContainer);
 
         initializeViewPager(mViewPager);
 
@@ -295,7 +304,7 @@ public class MainActivity extends AppCompatActivity {
         // SectionPageAdapter extends FragmentPageAdapter to add all fragments into a fragment list
         sectionPageAdaper = new SectionPageAdapter (getSupportFragmentManager() );
         sectionPageAdaper.addFragment(new tabFragment(), "Quick Notes");
-//        sectionPageAdaper.addFragment(new tabFragment(), "tab2");
+        sectionPageAdaper.addFragment(new tabFragment(), "tab2");
 
         viewPager.setAdapter(sectionPageAdaper);
     }
