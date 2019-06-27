@@ -86,14 +86,15 @@ public class MainActivity extends AppCompatActivity {
 
         initializeRecycleView();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                addTab();
-//                removeCurrentTab();
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                System.out.println("from activity");
+////                addTab();
+////                removeCurrentTab();
+//            }
+//        });
     }
 
     private void initializeRecycleView() {
@@ -158,14 +159,15 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.search:
                 msg = "search";
+                return false;
+//                break;
 
 //                addFragmentPrompt();
 //                confirmDialogDemo();
 //                promptDialogDemo();
-                break;
             case R.id.SwitchView:
                 msg = "switchView";
-
+                return false;
 //                if (VIEW_MODE_LISTVIEW == currentViewMode) {
 //                    currentViewMode = VIEW_MODE_GRIDVIEW;
 //                } else {
@@ -177,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
 //                SharedPreferences.Editor editor = sharedPreferences.edit();
 //                editor.putInt("currentViewMode", currentViewMode);
 //                editor.commit();
-                break;
+//                break;
             case R.id.delete:
                 msg ="delete";
                 removeFragmentPrompt();
@@ -191,7 +193,10 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 //        Toast.makeText(MainActivity.this, msg+" checked", Toast.LENGTH_LONG).show();
-        return super.onOptionsItemSelected(item);
+
+        return false;
+//        return super.onOptionsItemSelected(item);
+
     }
 
 

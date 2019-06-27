@@ -3,10 +3,14 @@ package com.example.btnm.quicknotes.tabFragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -35,7 +39,11 @@ public class tabFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab_fragment,container, false);
 
+        getNoteList();
         setupRecycleView(view);
+        //enable access to toolbar from fragment
+        setHasOptionsMenu(true);
+
 
 //        btnTest = (Button) view.findViewById(R.id.btnTest);
 //        btnTest.setOnClickListener(new View.OnClickListener() {
@@ -46,10 +54,52 @@ public class tabFragment extends Fragment {
 //            }
 //        });
 
-
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("from fragment");
+//                addTab();
+//                removeCurrentTab();
+            }
+        });
 
         return view;
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // do stuff that differs from activity's menu here
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.add:
+                //implemented in activity's menu
+                return false;
+            case R.id.search:
+
+                break;
+            case R.id.SwitchView:
+                //do the fragment menu item stuff here
+                Toast.makeText(getContext(),"from fragment", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.delete:
+                return false;
+            case R.id.setting:
+                return false;
+            case R.id.logout:
+                return false;
+        }
+
+//        return false;
+        return super.onOptionsItemSelected(item);
+    }
+
+
 
     private void setupRecycleView(View view) {
         mRecycleView = view.findViewById(R.id.recyclerView);

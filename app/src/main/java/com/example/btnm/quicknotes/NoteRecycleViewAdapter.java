@@ -23,6 +23,8 @@ public class NoteRecycleViewAdapter extends RecyclerView.Adapter<NoteRecycleView
         public TextView typeIcon;
         public ImageView typeIconImg;
         public TextView description;
+        public ImageView colorIcon;
+        public ImageView deleteIcon;
 
         /**
          * represent each item in the recycleview, by itemView
@@ -34,6 +36,8 @@ public class NoteRecycleViewAdapter extends RecyclerView.Adapter<NoteRecycleView
             typeIcon = itemView.findViewById(R.id.typeIconText);
             typeIconImg = itemView.findViewById(R.id.typeIcon);
             description = itemView.findViewById(R.id.description);
+            colorIcon = itemView.findViewById(R.id.colorIcon);
+            deleteIcon = itemView.findViewById(R.id.deleteIcon);
 
         }
 
@@ -87,6 +91,9 @@ public class NoteRecycleViewAdapter extends RecyclerView.Adapter<NoteRecycleView
         recycleViewHolder.typeIcon.setText(currentItem.getTypeIcon() );
         recycleViewHolder.typeIconImg.setImageResource(currentItem.getTypeIconImageId() );
         recycleViewHolder.description.setText(currentItem.getDescription() );
+
+        recycleViewHolder.colorIcon.setImageResource(R.drawable.ic_color);
+        recycleViewHolder.deleteIcon.setImageResource(R.drawable.ic_delete);
 
     }
 
