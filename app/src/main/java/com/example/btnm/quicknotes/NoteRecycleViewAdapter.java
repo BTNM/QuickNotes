@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class NoteRecycleViewAdapter extends RecyclerView.Adapter<NoteRecycleViewAdapter.RecycleViewHolder> {
 
     private ArrayList<Note> mNoteList;
+    private Boolean mIsViewAsList = true;
 
     /**
      *  the layout and content of an each item in the recycleview
@@ -44,11 +45,13 @@ public class NoteRecycleViewAdapter extends RecyclerView.Adapter<NoteRecycleView
     }
 
     /**
-     * Takes a List<Model> as a parameter which is the data to display
+     * Takes a List<Model> as a parameter which is the data to display,
      * @param noteList list of all items in the recycle view
+     * @param isViewAsList decide which layout for recycleview
      */
-    public NoteRecycleViewAdapter (ArrayList<Note> noteList) {
+    public NoteRecycleViewAdapter (ArrayList<Note> noteList, Boolean isViewAsList) {
         mNoteList = noteList;
+        mIsViewAsList = isViewAsList;
     }
 
 
@@ -66,10 +69,11 @@ public class NoteRecycleViewAdapter extends RecyclerView.Adapter<NoteRecycleView
     @Override
     public NoteRecycleViewAdapter.RecycleViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext() );
-        View itemView = inflater.inflate(R.layout.list_item, viewGroup, false);
+//        View itemView = inflater.inflate(R.layout.list_item, viewGroup, false);
+        View itemView = inflater.inflate(mIsViewAsList ? R.layout.list_item : R.layout.grid_item, null);
 
+//        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(mIsViewAsList ? R.layout.layout_listview : R.layout.layout_gridview, null);
         RecycleViewHolder recycleViewHolder = new RecycleViewHolder(itemView );
-
 
 
         return recycleViewHolder;

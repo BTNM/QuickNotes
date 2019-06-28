@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 //        gridView.setOnItemClickListener(onItemClick);
 //        switchView();
 
-        initializeRecycleView();
+//        initializeRecycleView();
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -97,10 +97,10 @@ public class MainActivity extends AppCompatActivity {
 //        });
     }
 
-    private void initializeRecycleView() {
-
-
-    }
+//    private void initializeRecycleView() {
+//
+//
+//    }
 
 //    private void switchView() {
 //        // display listview and hides gridview, and opposite
@@ -167,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
 //                promptDialogDemo();
             case R.id.SwitchView:
                 msg = "switchView";
+
                 return false;
 //                if (VIEW_MODE_LISTVIEW == currentViewMode) {
 //                    currentViewMode = VIEW_MODE_GRIDVIEW;

@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.btnm.quicknotes.MainActivity;
 import com.example.btnm.quicknotes.Note;
 import com.example.btnm.quicknotes.NoteRecycleViewAdapter;
 import com.example.btnm.quicknotes.R;
@@ -33,13 +33,14 @@ public class tabFragment extends Fragment {
     private ArrayList<Note> noteList = new ArrayList<>();
 
     private Button btnTest;
+    private Boolean isViewAsList = true;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab_fragment,container, false);
 
-        getNoteList();
+        populateNoteList();
         setupRecycleView(view);
         //enable access to toolbar from fragment
         setHasOptionsMenu(true);
@@ -85,7 +86,12 @@ public class tabFragment extends Fragment {
                 break;
             case R.id.SwitchView:
                 //do the fragment menu item stuff here
-                Toast.makeText(getContext(),"from fragment", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(),"from fragment", Toast.LENGTH_SHORT).show();
+                isViewAsList = !isViewAsList;
+//                supportInvalidateOptionsMenu();
+                mRecycleView.setLayoutManager(isViewAsList ? new LinearLayoutManager(getContext()) : new GridLayoutManager(getContext(), 2) );
+                mRecycleView.setAdapter(mAdapter);
+
                 break;
             case R.id.delete:
                 return false;
@@ -106,13 +112,13 @@ public class tabFragment extends Fragment {
         mRecycleView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext() );
 
-        mAdapter = new NoteRecycleViewAdapter(noteList);
+        mAdapter = new NoteRecycleViewAdapter(noteList, isViewAsList);
         mRecycleView.setLayoutManager(mLayoutManager);
         mRecycleView.setAdapter(mAdapter);
 
     }
 
-    private List<Note> getNoteList() {
+    private List<Note> populateNoteList() {
         // pseudo code to get note, replace your code to get real note here
         noteList = new ArrayList<>();
         noteList.add(new Note("Test Title1", R.drawable.ic_work,"Work", "Test description for the note") );
