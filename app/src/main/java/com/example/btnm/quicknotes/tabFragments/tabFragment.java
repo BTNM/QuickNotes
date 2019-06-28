@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -87,11 +88,11 @@ public class tabFragment extends Fragment {
             case R.id.SwitchView:
                 //do the fragment menu item stuff here
 //                Toast.makeText(getContext(),"from fragment", Toast.LENGTH_SHORT).show();
-                isViewAsList = !isViewAsList;
-//                supportInvalidateOptionsMenu();
-                mRecycleView.setLayoutManager(isViewAsList ? new LinearLayoutManager(getContext()) : new GridLayoutManager(getContext(), 2) );
-                mRecycleView.setAdapter(mAdapter);
-
+//                isViewAsList = !isViewAsList;
+////                supportInvalidateOptionsMenu();
+//                mRecycleView.setLayoutManager(isViewAsList ? new LinearLayoutManager(getContext()) : new GridLayoutManager(getContext(), 2) );
+//                mRecycleView.setAdapter(mAdapter);
+                checkChangeLayout();
                 break;
             case R.id.delete:
                 return false;
@@ -105,16 +106,55 @@ public class tabFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    public void checkChangeLayout () {
+        isViewAsList = !isViewAsList;
 
+        if (isViewAsList) {
+            mLayoutManager = new LinearLayoutManager(getContext() ) {
+                @Override
+                public boolean checkLayoutParams(RecyclerView.LayoutParams lp) {
+//                return super.checkLayoutParams(lp);
+                    lp.height = getHeight() / 4;
+                    return true;
+                }
+            };
+
+        } else {
+            mLayoutManager = new GridLayoutManager(getContext(), 2) {
+                @Override
+                public boolean checkLayoutParams(RecyclerView.LayoutParams lp) {
+                    lp.height = getHeight() / 4;
+                    return true;
+                }
+            };
+
+        }
+        mRecycleView.setLayoutManager(mLayoutManager);
+        mRecycleView.setAdapter(mAdapter);
+
+
+    }
 
     private void setupRecycleView(View view) {
         mRecycleView = view.findViewById(R.id.recyclerView);
         mRecycleView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(getContext() );
+        mRecycleView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.HORIZONTAL));
+        mRecycleView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
         mAdapter = new NoteRecycleViewAdapter(noteList, isViewAsList);
-        mRecycleView.setLayoutManager(mLayoutManager);
-        mRecycleView.setAdapter(mAdapter);
+
+//        mLayoutManager = new LinearLayoutManager(getContext() ) {
+//            @Override
+//            public boolean checkLayoutParams(RecyclerView.LayoutParams lp) {
+////                return super.checkLayoutParams(lp);
+//                lp.height = getHeight() /4;
+//                return true;
+//            }
+//        };
+//
+//        mRecycleView.setLayoutManager(mLayoutManager);
+//        mRecycleView.setAdapter(mAdapter);
+        checkChangeLayout();
 
     }
 
@@ -122,10 +162,10 @@ public class tabFragment extends Fragment {
         // pseudo code to get note, replace your code to get real note here
         noteList = new ArrayList<>();
         noteList.add(new Note("Test Title1", R.drawable.ic_work,"Work", "Test description for the note") );
-        noteList.add(new Note("Test Title2", R.drawable.ic_note_blue,"Work", "Test description for the note") );
-        noteList.add(new Note("Test Title3", R.drawable.ic_work,"Work", "Test description for the note") );
-        noteList.add(new Note("Test Title4", R.drawable.ic_note_color,"Work", "Test description for the note") );
-        noteList.add(new Note("Test Title5", R.drawable.ic_work,"Work", "Test description for the note") );
+        noteList.add(new Note("Test Title2", R.drawable.ic_note_blue,"Work", "Test description for the note. Meeting at bar in Bergen blablalbaf dfdfd dfdfdf df df ed") );
+        noteList.add(new Note("Test Title3", R.drawable.ic_work,"Work", "Test description, Work note ssssssssssssssssssssssssssssssssssssssssssssss sssssssssssssssssssssssssssssssssssss sssssss") );
+        noteList.add(new Note("Test Title4", R.drawable.ic_note_color,"Work", "Test description") );
+        noteList.add(new Note("Test Title5", R.drawable.ic_work,"Work", "Test description for the note. Test description for the note. Test description for the note. Test description for the note. Test description for the note. Test description for the note. Test description for the note. Test description for the note. Test description for the note.") );
 
         return noteList;
 

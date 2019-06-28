@@ -58,7 +58,7 @@ public class NoteRecycleViewAdapter extends RecyclerView.Adapter<NoteRecycleView
     /**
      * this method is responsible for creating our ViewHolder
      *
-     * Create a View by inflating our XML layout
+     * Create a View by inflating our XML layout for each item
      * Return an instance of our ViewHolder while passing the previously created view as parameter.
      * inflate layout from xml file into each alarm element
      * @param viewGroup
