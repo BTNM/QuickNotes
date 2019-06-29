@@ -28,7 +28,8 @@ import java.util.List;
 
 public class tabFragment extends Fragment {
     private RecyclerView mRecycleView; // recycleview connects to the recycleview element in the xml
-    private RecyclerView.Adapter mAdapter; // bridge that connects datalist to recycleview
+//    private RecyclerView.Adapter mAdapter; // bridge that connects datalist to recycleview
+    private NoteRecycleViewAdapter mAdapter; // Change to our note adapter to access custom method
     private RecyclerView.LayoutManager mLayoutManager;
 
     private ArrayList<Note> noteList = new ArrayList<>();
@@ -106,6 +107,45 @@ public class tabFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+
+    private void setupRecycleView(View view) {
+        mRecycleView = view.findViewById(R.id.recyclerView);
+        mRecycleView.setHasFixedSize(true);
+        mRecycleView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.HORIZONTAL));
+        mRecycleView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+
+        mAdapter = new NoteRecycleViewAdapter(noteList, isViewAsList);
+
+        checkChangeLayout();
+//        mLayoutManager = new LinearLayoutManager(getContext() ) {
+//            @Override
+//            public boolean checkLayoutParams(RecyclerView.LayoutParams lp) {
+////                return super.checkLayoutParams(lp);
+//                lp.height = getHeight() /4;
+//                return true;
+//            }
+//        };
+//
+//        mRecycleView.setLayoutManager(mLayoutManager);
+//        mRecycleView.setAdapter(mAdapter);
+
+        mRecycleView.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener (new NoteRecycleViewAdapter.OnItemClickListener() {
+            @Override
+            public void onDeleteClick(int posistion) {
+                //delete item here
+                noteList.remove(posistion);
+                mAdapter.notifyItemRemoved(posistion);
+                mAdapter.notifyItemRangeChanged(posistion, noteList.size() );
+
+
+            }
+        });
+
+
+
+    }
+
     public void checkChangeLayout () {
         isViewAsList = !isViewAsList;
 
@@ -130,33 +170,9 @@ public class tabFragment extends Fragment {
 
         }
         mRecycleView.setLayoutManager(mLayoutManager);
-        mRecycleView.setAdapter(mAdapter);
-
 
     }
 
-    private void setupRecycleView(View view) {
-        mRecycleView = view.findViewById(R.id.recyclerView);
-        mRecycleView.setHasFixedSize(true);
-        mRecycleView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.HORIZONTAL));
-        mRecycleView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-
-        mAdapter = new NoteRecycleViewAdapter(noteList, isViewAsList);
-
-//        mLayoutManager = new LinearLayoutManager(getContext() ) {
-//            @Override
-//            public boolean checkLayoutParams(RecyclerView.LayoutParams lp) {
-////                return super.checkLayoutParams(lp);
-//                lp.height = getHeight() /4;
-//                return true;
-//            }
-//        };
-//
-//        mRecycleView.setLayoutManager(mLayoutManager);
-//        mRecycleView.setAdapter(mAdapter);
-        checkChangeLayout();
-
-    }
 
     private List<Note> populateNoteList() {
         // pseudo code to get note, replace your code to get real note here

@@ -11,9 +11,24 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class NoteRecycleViewAdapter extends RecyclerView.Adapter<NoteRecycleViewAdapter.RecycleViewHolder> {
-
     private ArrayList<Note> mNoteList;
     private Boolean mIsViewAsList = true;
+
+    private OnItemClickListener mClickListener;
+
+    /**
+     * Add interface to enable sending clicklistener argument to recyceviewholder
+     */
+    public interface OnItemClickListener {
+        void onDeleteClick(int posistion);
+    }
+
+    /**
+     * @param listener received listener from an activity where code is implemented
+     */
+    public void setOnItemClickListener (OnItemClickListener listener) {
+        mClickListener = listener;
+    }
 
     /**
      *  the layout and content of an each item in the recycleview
@@ -31,7 +46,7 @@ public class NoteRecycleViewAdapter extends RecyclerView.Adapter<NoteRecycleView
          * represent each item in the recycleview, by itemView
          * @param itemView
          */
-        public RecycleViewHolder(@NonNull View itemView) {
+        public RecycleViewHolder(@NonNull View itemView, OnItemClickListener clickListener) {
             super(itemView);
             title = itemView.findViewById(R.id.textTitle);
             typeIcon = itemView.findViewById(R.id.typeIconText);
@@ -39,6 +54,16 @@ public class NoteRecycleViewAdapter extends RecyclerView.Adapter<NoteRecycleView
             description = itemView.findViewById(R.id.description);
             colorIcon = itemView.findViewById(R.id.colorIcon);
             deleteIcon = itemView.findViewById(R.id.deleteIcon);
+
+            deleteIcon.setOnClickListener(e -> {
+                if (clickListener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        clickListener.onDeleteClick(position);
+                    }
+
+                }
+            });
 
         }
 
@@ -73,7 +98,7 @@ public class NoteRecycleViewAdapter extends RecyclerView.Adapter<NoteRecycleView
         View itemView = inflater.inflate(mIsViewAsList ? R.layout.list_item : R.layout.grid_item, null);
 
 //        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(mIsViewAsList ? R.layout.layout_listview : R.layout.layout_gridview, null);
-        RecycleViewHolder recycleViewHolder = new RecycleViewHolder(itemView );
+        RecycleViewHolder recycleViewHolder = new RecycleViewHolder(itemView, mClickListener);
 
 
         return recycleViewHolder;
@@ -98,6 +123,7 @@ public class NoteRecycleViewAdapter extends RecyclerView.Adapter<NoteRecycleView
 
         recycleViewHolder.colorIcon.setImageResource(R.drawable.ic_color);
         recycleViewHolder.deleteIcon.setImageResource(R.drawable.ic_delete);
+
 
     }
 
