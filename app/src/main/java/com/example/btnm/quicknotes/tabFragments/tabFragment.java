@@ -9,6 +9,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.btnm.quicknotes.ItemMovesCallback;
 import com.example.btnm.quicknotes.Note;
 import com.example.btnm.quicknotes.NoteRecycleViewAdapter;
 import com.example.btnm.quicknotes.R;
@@ -46,6 +48,7 @@ public class tabFragment extends Fragment {
         setupRecycleView(view);
         //enable access to toolbar from fragment
         setHasOptionsMenu(true);
+
 
 
 //        btnTest = (Button) view.findViewById(R.id.btnTest);
@@ -142,6 +145,9 @@ public class tabFragment extends Fragment {
             }
         });
 
+        ItemTouchHelper.Callback callback = new ItemMovesCallback(mAdapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(mRecycleView);
 
 
     }
