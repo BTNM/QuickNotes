@@ -9,12 +9,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
-public class NoteRecycleViewAdapter extends RecyclerView.Adapter<NoteRecycleViewAdapter.RecycleViewHolder> {
+public class NoteRecycleViewAdapter extends RecyclerView.Adapter<NoteRecycleViewAdapter.RecycleViewHolder> implements ItemMovesCallback.ItemTouchHelperInterface {
     private ArrayList<Note> mNoteList;
     private Boolean mIsViewAsList = true;
 
     private OnItemClickListener mClickListener;
+
+
 
     /**
      * Add interface to enable sending clicklistener argument to recyceviewholder
@@ -132,5 +135,27 @@ public class NoteRecycleViewAdapter extends RecyclerView.Adapter<NoteRecycleView
         return mNoteList.size();
     }
 
+
+    @Override
+    public Boolean onItemMoved(int fromPosition, int toPosition) {
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition;i++) {
+                Collections.swap(mNoteList, i, i+1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(mNoteList, i, i-1);
+            }
+        }
+
+        notifyItemMoved(fromPosition, toPosition);
+        return true;
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        mNoteList.remove(position);
+        notifyItemRemoved(position);
+    }
 
 }
