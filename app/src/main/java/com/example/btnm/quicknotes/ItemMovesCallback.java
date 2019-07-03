@@ -9,6 +9,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 public class ItemMovesCallback extends ItemTouchHelper.Callback {
     private final ItemTouchHelperInterface interfaceAdapter;
     public static final float ALPHA_FULL = 1.0f;
+    public int swipeFlags = 0;
 
     public ItemMovesCallback(ItemTouchHelperInterface adapter) {
         interfaceAdapter = adapter;
@@ -24,9 +25,17 @@ public class ItemMovesCallback extends ItemTouchHelper.Callback {
     public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
         int draggedFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN |
                            ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
-        int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+
+//        int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+        int swipeFlags = 0;
+
 
         return makeMovementFlags(draggedFlags, swipeFlags);
+    }
+
+
+    public void setSwipeFlags(int swipeFlags) {
+        this.swipeFlags = swipeFlags;
     }
 
     @Override

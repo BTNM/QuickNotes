@@ -145,10 +145,9 @@ public class tabFragment extends Fragment {
             }
         });
 
-        ItemTouchHelper.Callback callback = new ItemMovesCallback(mAdapter);
+        ItemMovesCallback callback = new ItemMovesCallback(mAdapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(mRecycleView);
-
 
     }
 
@@ -161,6 +160,8 @@ public class tabFragment extends Fragment {
                 public boolean checkLayoutParams(RecyclerView.LayoutParams lp) {
 //                return super.checkLayoutParams(lp);
                     lp.height = getHeight() / 4;
+
+//                    ((ItemMovesCallback) callback).setSwipeFlags(ItemTouchHelper.START | ItemTouchHelper.END);
                     return true;
                 }
             };
@@ -170,6 +171,7 @@ public class tabFragment extends Fragment {
                 @Override
                 public boolean checkLayoutParams(RecyclerView.LayoutParams lp) {
                     lp.height = getHeight() / 4;
+//                    ((ItemMovesCallback) callback).setSwipeFlags(0);
                     return true;
                 }
             };
